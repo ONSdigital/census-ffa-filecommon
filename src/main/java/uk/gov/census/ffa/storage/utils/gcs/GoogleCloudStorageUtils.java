@@ -62,8 +62,7 @@ public class GoogleCloudStorageUtils implements StorageFunctions {
     Bucket bucket = retrieveBucket(location);
     String path = location.getRawPath().substring(1);
     BlobId source = BlobId.of(bucket.getName(), path);
-    storage.delete(source);
-    return false;
+    return storage.delete(source);
   }
 
   @Override
