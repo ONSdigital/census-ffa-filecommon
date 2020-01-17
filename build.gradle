@@ -1,0 +1,130 @@
+import com.github.spotbugs.SpotBugsTask
+
+buildscript {
+	ext {
+		springBootVersion = '2.1.6.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		jcenter()
+	}
+	dependencies {
+		classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+		classpath 'org.jfrog.buildinfo:build-info-extractor-gradle:4.7.2'
+	}
+}
+
+plugins {
+	id 'java'
+	id 'idea'
+	id 'maven'
+	id 'maven-publish'
+		id 'io.spring.dependency-management' version '1.0.6.RELEASE'
+	id 'jacoco'
+	id 'com.jfrog.artifactory' version '4.8.1'
+	id 'org.ajoberstar.grgit' version '3.0.0'
+	id 'com.github.spotbugs' version '1.6.5'
+}
+
+description = 'census-ffa-storage-utils'
+
+group = 'uk.gov.ons.census.ffa'
+
+version = '0.0.1-SNAPSHOT'
+
+sourceCompatibility = '11'
+
+targetCompatibility = '11'
+
+repositories {
+	mavenLocal()
+	if (!project.hasProperty('omitSDCArtifactory')) {
+		maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-release' }
+		maven { url 'http://artifactory-sdc.onsdigital.uk/artifactory/libs-snapshot' }
+	}
+	mavenCentral()
+}
+
+dependencies {
+compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
+	compile group: 'commons-io', name: 'commons-io', version: '2.6'
+	implementation('com.google.cloud:google-cloud-nio:0.120.0-alpha')
+// https://mvnrepository.com/artifact/org.springframework/spring-core
+compile group: 'org.springframework', name: 'spring-beans', version: '5.2.3.RELEASE'
+// https://mvnrepository.com/artifact/org.springframework/spring-context
+compile group: 'org.springframework', name: 'spring-context', version: '5.2.3.RELEASE'
+
+
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR1"
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.2"
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled true
+		html.enabled false
+	}
+}
+
+test.finalizedBy(project.tasks.jacocoTestReport)
+
+/*
+processResources {
+    filter ReplaceTokens, tokens: [
+            'project.artifactId': 'name',
+            'project.version'   : 'version',
+            'scm.url'           : 'url',
+            'buildNumber'       : 'buildnumber',
+            'scmBranch'         : 'branch',
+            'timestamp'         : 'timestamp',
+    ]
+}
+*/
+
+artifactory {
+	contextUrl = System.getenv('ARTIFACTORY_URL')
+	publish {
+		repository {
+			repoKey = 'libs-snapshot-local'
+			username = System.getenv('ARTIFACTORY_USERNAME')
+			password = System.getenv('ARTIFACTORY_PASSWORD')
+		}
+	}
+}
+
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = group
+			artifactId = 'census-ffa-storage-utils'
+			version = version
+
+			from components.java
+		}
+	}
+}
+
+artifactoryPublish {
+	publications 'maven'
+}
+
+spotbugs {
+	toolVersion = '3.1.9'
+}
+
+tasks.withType(SpotBugsTask) {
+	reports {
+		xml.enabled = false
+		html.enabled = true
+	}
+}
+
