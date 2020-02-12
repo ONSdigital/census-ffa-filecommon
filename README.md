@@ -11,7 +11,7 @@ Quick starts
 
 Project requires Springboot, probably just Springframework will do
 Add this dependency to Project
-Add @ComponentScan({..."uk.gov.census.ffa.commonfile.utils"})
+Add @ComponentScan({..."uk.gov.census.ffa.storage.utils"})
 File locations in your properties files need to be in a valid uri format with either file:// or gs://
 
 rough example to get list of files from a folder
