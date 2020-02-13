@@ -29,7 +29,7 @@ import uk.gov.census.ffa.storage.utils.exceptions.SavingFileException;
 @Component
 public class GoogleCloudStorageUtils implements StorageFunctions {
 
-  private static Storage storage = null;
+  private static Storage storage;
 
   static {
     storage = StorageOptions.getDefaultInstance().getService();
