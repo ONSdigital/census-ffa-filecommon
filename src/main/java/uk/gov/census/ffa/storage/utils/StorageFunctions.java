@@ -16,5 +16,4 @@ public interface StorageFunctions {
 
   void save(URI destination, InputStream sis);
 
-
 }

@@ -19,7 +19,7 @@ public class StorageProtocolResolver {
   
   @PostConstruct
   void setup() {
-    resolverMap=new HashMap<String, StorageFunctions>();
+    resolverMap= new HashMap<>();
     for (StorageFunctions folderResolver : resolverList) {
       resolverMap.put(folderResolver.getProtocol(), folderResolver);
     }
@@ -29,6 +29,4 @@ public class StorageProtocolResolver {
       String protocol = location.getScheme();
       return resolverMap.get(protocol);
   }
-  
-  
 }

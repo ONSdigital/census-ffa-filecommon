@@ -9,7 +9,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
 @Component
 public class StorageUtils {
   @Autowired
@@ -17,22 +16,19 @@ public class StorageUtils {
   
   public InputStream getFileInputStream(URI location) {
     StorageFunctions utils = storageProtocolResolver.resolve(location);
-    InputStream is = utils.getFileInputStream(location);
-    return is;
+    return utils.getFileInputStream(location);
   }
   
   public List<URI> getFilenamesInFolder(URI location, String prefix){
-    List<URI> list = getFilenamesInFolder(location)
+    return getFilenamesInFolder(location)
         .stream().filter(u -> FilenameUtils.getBaseName(u.toString()).startsWith(prefix)).collect(Collectors.toList());
-    return list;
   }
   
   public List<URI> getFilenamesInFolder(URI location){
     StorageFunctions utils = storageProtocolResolver.resolve(location);
-    List<URI> fileLocations = utils.getFilenamesInFolder(location);
-    return fileLocations;
+    return utils.getFilenamesInFolder(location);
   }
-  
+
   public void move(URI source, URI destination) {
     StorageFunctions sUtils = storageProtocolResolver.resolve(source);
     InputStream sis = sUtils.getFileInputStream(source);
