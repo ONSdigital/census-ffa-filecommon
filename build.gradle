@@ -30,7 +30,7 @@ description = 'census-ffa-storage-utils'
 
 group = 'uk.gov.ons.census.ffa'
 
-version = '0.0.1-SNAPSHOT'
+version = rootProject.file('version.txt').text.trim()
 
 sourceCompatibility = '11'
 
