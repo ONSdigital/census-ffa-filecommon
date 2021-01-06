@@ -2,7 +2,7 @@ import com.github.spotbugs.SpotBugsTask
 
 buildscript {
 	ext {
-		springBootVersion = '2.1.6.RELEASE'
+		springBootVersion = '2.3.0.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -38,24 +38,21 @@ targetCompatibility = '11'
 
 repositories {
 	mavenLocal()
-	
-    maven {
-        url 'https://ons.jfrog.io/ons/libs-releases-virtual'
-        credentials {
-            username "${artifactory_user}"
-            password "${artifactory_password}"
-        }
-    }
-    maven {
-        url 'https://ons.jfrog.io/ons/libs-snapshots-virtual'
-        credentials {
-            username "${artifactory_user}"
-            password "${artifactory_password}"
-        }
-    }
-
 	mavenCentral()
-}
+		maven {
+       		url 'https://ons.jfrog.io/ons/libs-releases-virtual'
+        	credentials {
+            	username "${artifactory_user}"
+            	password "${artifactory_password}"
+        	}
+    	}
+    	maven {
+        	url 'https://ons.jfrog.io/ons/libs-snapshots-virtual'
+        	credentials {
+            	username "${artifactory_user}"
+            	password "${artifactory_password}"
+        	}
+    	}}
 
 dependencies {
 compile group: 'org.projectlombok', name: 'lombok', version: '1.18.10'
@@ -63,9 +60,9 @@ annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.1
 	compile group: 'commons-io', name: 'commons-io', version: '2.6'
 	implementation('com.google.cloud:google-cloud-nio:0.120.0-alpha')
 // https://mvnrepository.com/artifact/org.springframework/spring-core
-compile group: 'org.springframework', name: 'spring-beans', version: '5.2.3.RELEASE'
+compile group: 'org.springframework', name: 'spring-beans', version: '5.2.6.RELEASE'
 // https://mvnrepository.com/artifact/org.springframework/spring-context
-compile group: 'org.springframework', name: 'spring-context', version: '5.2.3.RELEASE'
+compile group: 'org.springframework', name: 'spring-context', version: '5.2.6.RELEASE'
 
 
 }
