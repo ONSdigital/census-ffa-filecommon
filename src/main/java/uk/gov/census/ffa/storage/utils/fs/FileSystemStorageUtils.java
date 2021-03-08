@@ -23,7 +23,6 @@ public class FileSystemStorageUtils implements StorageFunctions {
   public InputStream getFileInputStream(URI uri) {
     try {
       File file = new File(uri);
-      String absolutePath = file.getAbsolutePath();
       return new FileInputStream(file);
     } catch (FileNotFoundException e) {
       throw new StorageInputStreamException("Problem getting InputStream for " + uri, e);
